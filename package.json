@@ -6,6 +6,7 @@
     "typescript": "~4.7.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.2",
     "lit": "^2.6.1",
     "lit-html": "^2.6.1"
   },

@@ -63,6 +63,12 @@ export class MinimumDues extends LitElement {
       margin: 0 0.5em;
     }
 
+    main section:nth-of-type(2) {
+      border: 1px solid var(--afscme);
+      border-radius: 4px;
+      background: white;
+    }
+
     footer {
       grid-area: footer;
       text-align: center;
@@ -74,9 +80,17 @@ export class MinimumDues extends LitElement {
     }
   `;
 
+  @property({attribute: false})
+  selection: Number | undefined;
+
+  constructor() {
+    super();
+    this.selection = undefined;
+  }
+
   render() {
     return html`<header><header-element></header-element></header>
-      <main @unitSelection=${this._selectionListener}>
+      <main @onSelection=${this._selectionListener}>
         <section id="unit-list">
           <unit-list .payload=${data}></unit-list>
         </section>
@@ -90,7 +104,12 @@ export class MinimumDues extends LitElement {
           <a href="mailto: minimumdues@afscme.org">minimumdues@afscme.org</a>
           / 202-429-1219
         </small>
+        <p>${this.selection}</p>
       </footer>`;
   }
 
+  _selectionListener(e: CustomEvent) {
+    this.selection = e.detail;
+    this.requestUpdate();
+  }
 }

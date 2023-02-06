@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 const editIcon = 'src/static/icons/edit.svg';
 let UnitItem = class UnitItem extends LitElement {
     static styles = css `
@@ -16,7 +16,7 @@ let UnitItem = class UnitItem extends LitElement {
       border-radius: 4px;
       position: relative;
       display: grid;
-      grid-template-columns: 85% 15%;
+      grid-template-columns: 80% 20%;
       grid-template-rows: auto;
       grid-template-areas:
         'unit status'
@@ -94,16 +94,7 @@ let UnitItem = class UnitItem extends LitElement {
     subunit;
     master;
     employer;
-    constructor() {
-        super();
-        this.agr_id;
-        this.stateLoc;
-        this.council;
-        this.local;
-        this.subunit;
-        this.master;
-        this.employer;
-    }
+    _selection;
     render() {
         return html ` <div id="unit_id">
       <p>
@@ -121,14 +112,14 @@ let UnitItem = class UnitItem extends LitElement {
     </div>`;
     }
     _selectionHandler() {
-        const selection = this.agr_id;
-        if (selection) {
+        this._selection = this.agr_id;
+        if (this._selection) {
             const options = {
-                detail: { selection },
+                detail: this._selection,
                 bubbles: true,
                 composed: true,
             };
-            this.dispatchEvent(new CustomEvent('unitSelection', options));
+            this.dispatchEvent(new CustomEvent('onSelection', options));
         }
     }
 };
@@ -153,6 +144,9 @@ __decorate([
 __decorate([
     property()
 ], UnitItem.prototype, "employer", void 0);
+__decorate([
+    state()
+], UnitItem.prototype, "_selection", void 0);
 UnitItem = __decorate([
     customElement('unit-item')
 ], UnitItem);

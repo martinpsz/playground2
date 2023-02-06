@@ -62,6 +62,12 @@ let MinimumDues = class MinimumDues extends LitElement {
       margin: 0 0.5em;
     }
 
+    main section:nth-of-type(2) {
+      border: 1px solid var(--afscme);
+      border-radius: 4px;
+      background: white;
+    }
+
     footer {
       grid-area: footer;
       text-align: center;
@@ -73,10 +79,13 @@ let MinimumDues = class MinimumDues extends LitElement {
     }
   `;
     selection;
+    constructor() {
+        super();
+        this.selection = undefined;
+    }
     render() {
-        console.log(this.selection);
         return html `<header><header-element></header-element></header>
-      <main @unitSelection=${this._selectionListener}>
+      <main @onSelection=${this._selectionListener}>
         <section id="unit-list">
           <unit-list .payload=${data}></unit-list>
         </section>
@@ -90,14 +99,16 @@ let MinimumDues = class MinimumDues extends LitElement {
           <a href="mailto: minimumdues@afscme.org">minimumdues@afscme.org</a>
           / 202-429-1219
         </small>
+        <p>${this.selection}</p>
       </footer>`;
     }
     _selectionListener(e) {
-        this.selection = e.detail.selection;
+        this.selection = e.detail;
+        this.requestUpdate();
     }
 };
 __decorate([
-    property()
+    property({ attribute: false })
 ], MinimumDues.prototype, "selection", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')

@@ -10,11 +10,11 @@ const searchIcon = 'src/static/icons/search.svg';
 let UnitSearch = class UnitSearch extends LitElement {
     static styles = css `
     .search-container {
-      padding: 0.75em 0;
+      padding: 0.75em 1em;
       background: var(--afscme);
       border-radius: 4px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
     }
 
@@ -22,7 +22,7 @@ let UnitSearch = class UnitSearch extends LitElement {
       display: inline-flex;
       align-items: center;
       position: relative;
-      width: 33%;
+      width: 50%;
     }
 
     input {
@@ -56,6 +56,16 @@ let UnitSearch = class UnitSearch extends LitElement {
     input:focus::placeholder {
       display: none;
     }
+
+    button {
+      background: white;
+      border: 1px solid var(--primary-500);
+      border-radius: 4px;
+      font-family: var(--copy-font);
+      text-transform: uppercase;
+      color: var(--primary-500);
+      padding: 0.5em 1em;
+    }
   `;
     render() {
         return html `<div class="search-container">
@@ -63,6 +73,7 @@ let UnitSearch = class UnitSearch extends LitElement {
         <input id="search" type="text" placeholder="Search by employer/unit:" />
         <label for="search"><img src=${searchIcon} /></label>
       </div>
+      <button>Add a unit</button>
     </div>`;
     }
 };

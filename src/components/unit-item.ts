@@ -1,6 +1,6 @@
 /* eslint-disable node/no-extraneous-import */
 import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 
 const editIcon = 'src/static/icons/edit.svg';
 
@@ -14,7 +14,7 @@ export class UnitItem extends LitElement {
       border-radius: 4px;
       position: relative;
       display: grid;
-      grid-template-columns: 85% 15%;
+      grid-template-columns: 80% 20%;
       grid-template-rows: auto;
       grid-template-areas:
         'unit status'
@@ -106,16 +106,8 @@ export class UnitItem extends LitElement {
   @property()
   employer: String;
 
-  constructor() {
-    super();
-    this.agr_id;
-    this.stateLoc;
-    this.council;
-    this.local;
-    this.subunit;
-    this.master;
-    this.employer;
-  }
+  @state()
+  protected _selection: {};
 
   render() {
     return html` <div id="unit_id">
@@ -135,15 +127,16 @@ export class UnitItem extends LitElement {
   }
 
   _selectionHandler() {
-    //console.log(`I selected: ${this.id}`);
-    const selection = this.agr_id;
-    if (selection) {
+    this._selection = this.agr_id;
+
+    if (this._selection) {
       const options = {
-        detail: {selection},
+        detail: this._selection,
         bubbles: true,
         composed: true,
       };
-      this.dispatchEvent(new CustomEvent('unitSelection', options));
+
+      this.dispatchEvent(new CustomEvent('onSelection', options));
     }
   }
 }

@@ -1,7 +1,8 @@
 import { LitElement } from 'lit';
-import '../components/form-elements/form-nav';
+import './form-elements/form-header';
+import './form-elements/form-text-field';
+import './form-elements/form-toggle';
 export declare class UnitForm extends LitElement {
-    selection: Number;
-    constructor();
+    static styles: import("lit").CSSResult;
     render(): import("lit-html").TemplateResult<1>;
 }

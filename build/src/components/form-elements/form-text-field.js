@@ -40,7 +40,7 @@ let FormTextField = class FormTextField extends LitElement {
     render() {
         return html `<div>
       <label for=${this.label}>${this.label}</label
-      ><input type="text" id=${this.label} placeholder=${this.placeholder}/>
+      ><input type="text" id=${this.label} placeholder=${this.placeholder} />
     </div>`;
     }
 };

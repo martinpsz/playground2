@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 const editIcon = 'src/static/icons/edit.svg';
 let UnitItem = class UnitItem extends LitElement {
     static styles = css `
@@ -63,16 +63,18 @@ let UnitItem = class UnitItem extends LitElement {
       color: white;
       text-transform: uppercase;
       text-align: center;
+      margin: 0 0.5em;
     }
 
     #unit_id button {
+      justify-self: center;
       grid-area: button;
       background: none;
       border: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5em 0;
+      padding: 0.5em 1em;
       margin: 0 0.5em;
       text-transform: uppercase;
       color: var(--primary-500);
@@ -80,7 +82,6 @@ let UnitItem = class UnitItem extends LitElement {
       border: 1px solid var(--primary-500);
       border-radius: 4px;
       font-family: var(--copy-font);
-      line-height: 1;
     }
 
     #unit_id button img {
@@ -94,7 +95,6 @@ let UnitItem = class UnitItem extends LitElement {
     subunit;
     master;
     employer;
-    _selection;
     render() {
         return html ` <div id="unit_id">
       <p>
@@ -106,21 +106,8 @@ let UnitItem = class UnitItem extends LitElement {
       </p>
       <h2>${this.employer}</h2>
       <span id="unit_status">Complete</span>
-      <button role="button" @click=${this._selectionHandler}>
-        <img src=${editIcon} alt="edit icon" />Edit
-      </button>
+      <button role="button"><img src=${editIcon} alt="edit icon" />Edit</button>
     </div>`;
-    }
-    _selectionHandler() {
-        this._selection = this.agr_id;
-        if (this._selection) {
-            const options = {
-                detail: this._selection,
-                bubbles: true,
-                composed: true,
-            };
-            this.dispatchEvent(new CustomEvent('onSelection', options));
-        }
     }
 };
 __decorate([
@@ -144,9 +131,6 @@ __decorate([
 __decorate([
     property()
 ], UnitItem.prototype, "employer", void 0);
-__decorate([
-    state()
-], UnitItem.prototype, "_selection", void 0);
 UnitItem = __decorate([
     customElement('unit-item')
 ], UnitItem);

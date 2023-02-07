@@ -8,7 +8,5 @@ export declare class UnitItem extends LitElement {
     subunit: Number | String;
     master: Boolean;
     employer: String;
-    protected _selection: {};
     render(): import("lit-html").TemplateResult<1>;
-    _selectionHandler(): void;
 }

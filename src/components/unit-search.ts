@@ -1,7 +1,8 @@
 import {LitElement, html, css} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
 
 const searchIcon = 'src/static/icons/search.svg';
+const plusIcon = 'src/static/icons/plus.svg';
 
 @customElement('unit-search')
 export class UnitSearch extends LitElement {
@@ -55,23 +56,44 @@ export class UnitSearch extends LitElement {
     }
 
     button {
-      background: white;
-      border: 1px solid var(--primary-500);
+      background: var(--primary-500);
+      border: none;
       border-radius: 4px;
       font-family: var(--copy-font);
       text-transform: uppercase;
-      color: var(--primary-500);
+      color: #ffffff;
       padding: 0.5em 1em;
+      display: flex;
+      align-items: center;
+    }
+
+    button img {
+      margin-right: 0.5em;
     }
   `;
 
   render() {
     return html`<div class="search-container">
       <div class="search-field">
-        <input id="search" type="text" placeholder="Search by employer/unit:" />
+        <input
+          id="search"
+          type="text"
+          placeholder="Search by employer/unit:"
+          @input=${this._inputListener}
+        />
         <label for="search"><img src=${searchIcon} /></label>
       </div>
-      <button>Add a unit</button>
+      <button><img src=${plusIcon} alt="plus icon" />Add a unit</button>
     </div>`;
   }
+
+  _inputListener = (e: any) => {
+    this.dispatchEvent(
+      new CustomEvent('search-input', {
+        bubbles: true,
+        composed: true,
+        detail: e.target.value,
+      })
+    );
+  };
 }

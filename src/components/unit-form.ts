@@ -1,9 +1,14 @@
 /* eslint-disable node/no-extraneous-import */
-import {LitElement, html, css} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {LitElement, html, css, TemplateResult, nothing} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 import './form-elements/form-header';
 import './form-elements/form-text-field';
 import './form-elements/form-toggle';
+import './form-elements/form-calendar-field';
+import './form-elements/form-raises';
+import './form-elements/form-toggler';
+
+const plusIcon = 'src/static/icons/plus.svg';
 
 @customElement('unit-form')
 export class UnitForm extends LitElement {
@@ -23,7 +28,74 @@ export class UnitForm extends LitElement {
       grid-template-columns: auto 15%;
       grid-gap: 1em;
     }
+
+    .btn {
+      background: var(--primary-500);
+      color: #ffffff;
+      font-family: var(--copy-font);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5em 1em;
+    }
+
+    .btn img {
+      margin-right: 0.5em;
+    }
+
+    #upload {
+      display: flex;
+      flex-direction: column;
+      font-family: var(--copy-font);
+      align-self: flex-start;
+    }
+
+    #upload span {
+      margin-bottom: 0.5em;
+    }
+
+    #file-upload {
+      font-family: var(--copy-font);
+      display: flex;
+    }
+
+    #file-upload::file-selector-button {
+      background: var(--primary-500);
+      color: #ffffff;
+      font-family: var(--copy-font);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5em 1em;
+    }
+
+    #unit-status-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5em 0;
+      gap: 0.5em;
+    }
+
+    .btn-raise {
+      float: right;
+    }
   `;
+
+  @property() raises: TemplateResult[];
+  @property() specialRaise: Boolean;
+  @property() specialRaises: TemplateResult[];
+
+  constructor() {
+    super();
+
+    this.raises = [];
+    this.specialRaises = [];
+  }
   render() {
     return html`
       <form-header .sectionTitle=${'Reporting for the unit'}></form-header>
@@ -56,8 +128,69 @@ export class UnitForm extends LitElement {
           .question=${'Was the unit in bargaining in the period 8/1/22 - 7/31/23:'}
           .labels=${['Yes', 'No']}
         ></form-toggle>
-        <form-text-field .label=${'Number of members:'}></form-text-field>
+        <div id="unit-status-area">
+          <form-text-field .label=${'Number of members:'}></form-text-field>
+          <form-calendar-field
+            .prompt=${'Contract effective dates:'}
+            .dateRange=${true}
+          ></form-calendar-field>
+          <label for="file-upload" id="upload">
+            <span>Upload Contract:</span>
+            <input type="file" id="file-upload" />
+          </label>
+        </div>
       </div>
+      <form-header .sectionTitle=${'Across the board raises'}></form-header>
+      <div class="form-fields">
+        <form-raises .specialRaise=${false}></form-raises>
+        ${this.raises.map(raise => raise)}
+        <button class="btn btn-raise" @click=${this._addRaise}>
+          <img src=${plusIcon} />Add a raise
+        </button>
+        <form-toggle
+          id="special-raise"
+          .position=${'vertical'}
+          .idTag=${'special'}
+          .question=${'Did any group in this unit receive pandemic pay, retention bonsues, market adjustments or other special pay between 8/1/2022 - 7/31/2023?:'}
+          .labels=${['Yes', 'No']}
+          @click=${this._specialPaySelectionHandler}
+        ></form-toggle>
+      </div>
+      ${this.specialRaise
+        ? html`<form-header .sectionTitle=${'Special Raises'}></form-header>
+            <div class="form-fields">
+              <form-raises .specialRaise=${true}></form-raises>
+              ${this.specialRaises.map(raise => raise)}
+              <button class="btn btn-raise" @click=${this._addSpecialRaise}>
+                <img src=${plusIcon} />Add a raise
+              </button>
+            </div>`
+        : nothing}
     `;
+  }
+
+  _addRaise() {
+    this.raises.push(html`<form-raises .specialRaise=${false}></form-raises>`);
+    this.requestUpdate();
+  }
+
+  _addSpecialRaise() {
+    this.specialRaises.push(
+      html`<form-raises .specialRaise=${true}></form-raises>`
+    );
+    this.requestUpdate();
+  }
+
+  _specialPaySelectionHandler() {
+    const selectedOption = this.renderRoot
+      .querySelector('#special-raise')
+      ?.shadowRoot?.querySelector('.toggler input[name="option"]:checked');
+    const specialRaise =
+      selectedOption?.getAttribute('value')?.toLowerCase() === 'yes'
+        ? true
+        : false;
+
+    this.specialRaise = specialRaise;
+    this.requestUpdate();
   }
 }

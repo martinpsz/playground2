@@ -64,15 +64,27 @@ export class MinimumDues extends LitElement {
     }
 
     main section:nth-of-type(2) {
-      border: 1px solid var(--afscme);
+      //border: 1px solid var(--afscme);
       border-radius: 4px;
-      background: white;
+      //background: white;
+      overflow-y: scroll;
+    }
+
+    main section:nth-of-type(2)::-webkit-scrollbar {
+      width: 0.5em;
+      border-radius: 8px;
+    }
+
+    main section:nth-of-type(2)::-webkit-scrollbar-thumb {
+      box-shadow: inset 0 0 4px 4px var(--primary-500);
+      border: solid 2px transparent;
+      border-radius: 8px;
     }
 
     footer {
       grid-area: footer;
       text-align: center;
-      margin-top: 1em;
+      margin-top: 2em;
     }
 
     footer small a {

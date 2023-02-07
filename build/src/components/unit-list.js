@@ -21,15 +21,22 @@ let UnitList = class UnitList extends LitElement {
     }
 
     #units::-webkit-scrollbar-thumb {
-      //background: #0fac4f;
       box-shadow: inset 0 0 4px 4px #0fac4f;
       border: solid 2px transparent;
       border-radius: 8px;
     }
   `;
     payload;
+    searchTerm;
+    editing;
+    updateSearchTerm(e) {
+        this.searchTerm = e.detail.toLowerCase();
+        this.requestUpdate();
+    }
     render() {
-        return html `<unit-search></unit-search>
+        return html `<unit-search
+        @search-input=${this.updateSearchTerm}
+      ></unit-search>
       <div id="units">
         ${this.payload.map(val => html `<unit-item
             .agr_id="${val['agr_id']}"
@@ -46,6 +53,12 @@ let UnitList = class UnitList extends LitElement {
 __decorate([
     property()
 ], UnitList.prototype, "payload", void 0);
+__decorate([
+    property()
+], UnitList.prototype, "searchTerm", void 0);
+__decorate([
+    property()
+], UnitList.prototype, "editing", void 0);
 UnitList = __decorate([
     customElement('unit-list')
 ], UnitList);

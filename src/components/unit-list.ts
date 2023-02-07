@@ -18,7 +18,6 @@ export class UnitList extends LitElement {
     }
 
     #units::-webkit-scrollbar-thumb {
-      //background: #0fac4f;
       box-shadow: inset 0 0 4px 4px #0fac4f;
       border: solid 2px transparent;
       border-radius: 8px;
@@ -28,8 +27,22 @@ export class UnitList extends LitElement {
   @property()
   payload: [];
 
+  @property()
+  searchTerm: '';
+
+  @property()
+  editing: {};
+
+
+  updateSearchTerm(e: any) {
+    this.searchTerm = e.detail.toLowerCase();
+    this.requestUpdate();
+  }
+
   render() {
-    return html`<unit-search></unit-search>
+    return html`<unit-search
+        @search-input=${this.updateSearchTerm}
+      ></unit-search>
       <div id="units">
         ${this.payload.map(
           val => html`<unit-item
@@ -44,4 +57,7 @@ export class UnitList extends LitElement {
         )}
       </div>`;
   }
+
+  
+  
 }

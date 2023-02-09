@@ -47,6 +47,7 @@ export class FormToggle extends LitElement {
   @property() question: String;
   @property() position = 'horizontal';
   @property() idTag = String;
+  @property() defaultCheck = String;
 
   render() {
     return html`

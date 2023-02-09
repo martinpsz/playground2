@@ -33,11 +33,17 @@ export class FormTextField extends LitElement {
   `;
   @property() label: string;
   @property() placeholder: string;
+  @property() value: String | Number;
 
   render() {
     return html`<div>
       <label for=${this.label}>${this.label}</label
-      ><input type="text" id=${this.label} placeholder=${this.placeholder} />
+      ><input
+        type="text"
+        id=${this.label}
+        placeholder=${this.placeholder}
+        value=${this.value}
+      />
     </div>`;
   }
 }

@@ -41,17 +41,19 @@ let FormCalendarField = class FormCalendarField extends LitElement {
   `;
     prompt;
     dateRange;
+    valueFrom;
+    valueTo;
     render() {
         return html `<div id="container">
       <p>${this.prompt}</p>
       ${this.dateRange
             ? html `<div id="date-range">
             <label id="from-label" for="from">From:</label>
-            <input type="date" id="from" />
+            <input type="date" id="from" value=${this.valueFrom} />
             <label id="to-label" for="to">To:</label>
-            <input type="date" id="to" />
+            <input type="date" id="to" value=${this.valueTo} />
           </div>`
-            : html `<input type="date" id="from" />`}
+            : html `<input type="date" id="from" value=${this.valueFrom} />`}
     </div>`;
     }
 };
@@ -61,6 +63,12 @@ __decorate([
 __decorate([
     property()
 ], FormCalendarField.prototype, "dateRange", void 0);
+__decorate([
+    property()
+], FormCalendarField.prototype, "valueFrom", void 0);
+__decorate([
+    property()
+], FormCalendarField.prototype, "valueTo", void 0);
 FormCalendarField = __decorate([
     customElement('form-calendar-field')
 ], FormCalendarField);

@@ -30,9 +30,6 @@ export class UnitList extends LitElement {
   @property()
   searchTerm: '';
 
-  @property()
-  editing: {};
-
 
   updateSearchTerm(e: any) {
     this.searchTerm = e.detail.toLowerCase();
@@ -40,6 +37,7 @@ export class UnitList extends LitElement {
   }
 
   render() {
+    
     return html`<unit-search
         @search-input=${this.updateSearchTerm}
       ></unit-search>

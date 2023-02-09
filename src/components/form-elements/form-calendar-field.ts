@@ -37,17 +37,20 @@ export class FormCalendarField extends LitElement {
   `;
   @property() prompt: String;
   @property() dateRange: Boolean;
+  @property() valueFrom: String;
+  @property() valueTo: String;
+
   render() {
     return html`<div id="container">
       <p>${this.prompt}</p>
       ${this.dateRange
         ? html`<div id="date-range">
             <label id="from-label" for="from">From:</label>
-            <input type="date" id="from" />
+            <input type="date" id="from" value=${this.valueFrom} />
             <label id="to-label" for="to">To:</label>
-            <input type="date" id="to" />
+            <input type="date" id="to" value=${this.valueTo} />
           </div>`
-        : html`<input type="date" id="from" />`}
+        : html`<input type="date" id="from" value=${this.valueFrom} />`}
     </div>`;
   }
 }

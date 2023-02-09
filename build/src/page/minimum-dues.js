@@ -63,10 +63,12 @@ let MinimumDues = class MinimumDues extends LitElement {
     }
 
     main section:nth-of-type(2) {
-      //border: 1px solid var(--afscme);
+      border: 1px solid var(--afscme);
       border-radius: 4px;
-      //background: white;
+      background: white;
       overflow-y: scroll;
+      padding: 1em 0 3em;
+      max-height: calc(80vh - 4em);
     }
 
     main section:nth-of-type(2)::-webkit-scrollbar {
@@ -90,19 +92,30 @@ let MinimumDues = class MinimumDues extends LitElement {
       color: var(--primary-500);
     }
   `;
-    selection;
+    selected;
+    selectedUnit;
+    parentFoo;
+    _selectionListener(e) {
+        this.selected = e.detail;
+        this.selectedUnit = data.filter((val) => val.agr_id === this.selected)[0];
+        this.requestUpdate();
+        console.log(`Selection event: ${JSON.stringify(this.selectedUnit)}`);
+    }
     constructor() {
         super();
-        this.selection = undefined;
+        this.selectedUnit = data[0];
     }
     render() {
         return html `<header><header-element></header-element></header>
-      <main @onSelection=${this._selectionListener}>
+      <main>
         <section id="unit-list">
-          <unit-list .payload=${data}></unit-list>
+          <unit-list
+            .payload=${data}
+            @unit-selection=${this._selectionListener}
+          ></unit-list>
         </section>
         <section id="form-area">
-          <unit-form></unit-form>
+          <unit-form .unitSelected=${this.selectedUnit} .childFoo=${this.parentFoo}></unit-form>
         </section>
       </main>
       <footer>
@@ -111,17 +124,18 @@ let MinimumDues = class MinimumDues extends LitElement {
           <a href="mailto: minimumdues@afscme.org">minimumdues@afscme.org</a>
           / 202-429-1219
         </small>
-        <p>${this.selection}</p>
       </footer>`;
-    }
-    _selectionListener(e) {
-        this.selection = e.detail;
-        this.requestUpdate();
     }
 };
 __decorate([
     property({ attribute: false })
-], MinimumDues.prototype, "selection", void 0);
+], MinimumDues.prototype, "selected", void 0);
+__decorate([
+    property({ attribute: false })
+], MinimumDues.prototype, "selectedUnit", void 0);
+__decorate([
+    property({ type: String })
+], MinimumDues.prototype, "parentFoo", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);

@@ -9,7 +9,7 @@
     "module": "ES2022",
     "target": "ESNext",
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    //"noImplicitAny": true,
     "removeComments": true,
     "strictPropertyInitialization": false
   },

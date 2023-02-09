@@ -20,7 +20,7 @@ let UnitItem = class UnitItem extends LitElement {
       grid-template-rows: auto;
       grid-template-areas:
         'unit status'
-        'employer button';
+        'employer status';
       align-items: center;
     }
 
@@ -96,7 +96,7 @@ let UnitItem = class UnitItem extends LitElement {
     master;
     employer;
     render() {
-        return html ` <div id="unit_id">
+        return html ` <div id="unit_id" @click=${this._selectedUnit}>
       <p>
         ${this.master ? html `<span id="master">Master</span>` : ''}
         <span>State: ${this.stateLoc}</span>
@@ -106,8 +106,15 @@ let UnitItem = class UnitItem extends LitElement {
       </p>
       <h2>${this.employer}</h2>
       <span id="unit_status">Complete</span>
-      <button role="button"><img src=${editIcon} alt="edit icon" />Edit</button>
     </div>`;
+    }
+    _selectedUnit() {
+        const selectedUnit = this.agr_id;
+        this.dispatchEvent(new CustomEvent('unit-selection', {
+            bubbles: true,
+            composed: true,
+            detail: selectedUnit,
+        }));
     }
 };
 __decorate([

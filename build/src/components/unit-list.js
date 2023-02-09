@@ -28,7 +28,6 @@ let UnitList = class UnitList extends LitElement {
   `;
     payload;
     searchTerm;
-    editing;
     updateSearchTerm(e) {
         this.searchTerm = e.detail.toLowerCase();
         this.requestUpdate();
@@ -56,9 +55,6 @@ __decorate([
 __decorate([
     property()
 ], UnitList.prototype, "searchTerm", void 0);
-__decorate([
-    property()
-], UnitList.prototype, "editing", void 0);
 UnitList = __decorate([
     customElement('unit-list')
 ], UnitList);

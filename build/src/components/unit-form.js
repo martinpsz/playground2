@@ -51,7 +51,6 @@ let UnitForm = class UnitForm extends LitElement {
       display: flex;
       flex-direction: column;
       font-family: var(--copy-font);
-      align-self: flex-start;
     }
 
     #upload span {
@@ -77,19 +76,17 @@ let UnitForm = class UnitForm extends LitElement {
 
     #unit-status-area {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
       margin: 0.5em 0;
-      gap: 0.5em;
-    }
-
-    .btn-raise {
-      float: right;
+      gap: 1em;
     }
   `;
     raises;
     specialRaise;
     specialRaises;
+    unitSelected;
+    childFoo;
     constructor() {
         super();
         this.raises = [];
@@ -97,25 +94,41 @@ let UnitForm = class UnitForm extends LitElement {
     }
     render() {
         return html `
+      <div id="unit-corrections" class="form-fields">
+        <form-text-field
+          .label=${'Employer/Unit:'}
+          .value=${this.unitSelected['master']
+            ? this.unitSelected['master_name']
+            : this.unitSelected['unit_name']}
+        ></form-text-field>
+        <form-text-field
+          .label=${'Local #:'}
+          .value=${this.unitSelected['local'] ? this.unitSelected['local'] : ''}
+        ></form-text-field>
+      </div>
       <form-header .sectionTitle=${'Reporting for the unit'}></form-header>
       <div id="reporting-for-unit" class="form-fields">
         <form-text-field
           .label=${'Name:'}
           .placeholder=${'Enter your full name'}
+          .value=${this.unitSelected['contact']
+            ? this.unitSelected['contact']['name']
+            : ''}
         ></form-text-field>
         <form-text-field
           .label=${'Phone Number:'}
           .placeholder=${'Enter your phone #:'}
+          .value=${this.unitSelected['contact']
+            ? this.unitSelected['contact']['phone']
+            : ''}
         ></form-text-field>
         <form-text-field
           .label=${'Email Address:'}
           .placeholder=${'Enter your email:'}
+          .value=${this.unitSelected['contact']
+            ? this.unitSelected['contact']['email']
+            : ''}
         ></form-text-field>
-      </div>
-      <form-header .sectionTitle=${'Unit Corrections'}></form-header>
-      <div id="unit-corrections" class="form-fields">
-        <form-text-field .label=${'Employer/Unit:'}></form-text-field>
-        <form-text-field .label=${'Local #:'}></form-text-field>
       </div>
       <form-header .sectionTitle=${'Unit Status'}></form-header>
       <div id="unit-status" class="form-fields">
@@ -128,10 +141,19 @@ let UnitForm = class UnitForm extends LitElement {
           .labels=${['Yes', 'No']}
         ></form-toggle>
         <div id="unit-status-area">
-          <form-text-field .label=${'Number of members:'}></form-text-field>
+          <form-text-field
+            .label=${'Number of members:'}
+            .value=${this.unitSelected['number_of_members']
+            ? this.unitSelected['number_of_members']
+            : ''}
+          ></form-text-field>
           <form-calendar-field
             .prompt=${'Contract effective dates:'}
             .dateRange=${true}
+            .valueFrom=${this.unitSelected['agreement_eff_date'] &&
+            this.unitSelected['agreement_eff_date']}
+            .valueTo=${this.unitSelected['agreement_exp_date'] &&
+            this.unitSelected['agreement_exp_date']}
           ></form-calendar-field>
           <label for="file-upload" id="upload">
             <span>Upload Contract:</span>
@@ -146,24 +168,29 @@ let UnitForm = class UnitForm extends LitElement {
         <button class="btn btn-raise" @click=${this._addRaise}>
           <img src=${plusIcon} />Add a raise
         </button>
+      </div>
+      <form-header
+        .sectionTitle=${'Special Raises'}
+        id="special-raises"
+      ></form-header>
+      <div class="form-fields">
         <form-toggle
           id="special-raise"
           .position=${'vertical'}
           .idTag=${'special'}
-          .question=${'Did any group in this unit receive pandemic pay, retention bonsues, market adjustments or other special pay between 8/1/2022 - 7/31/2023?:'}
+          .question=${'Did any group in this unit receive pandemic pay, retention bonuses, market adjustments or other special pay between 8/1/2022 - 7/31/2023?:'}
           .labels=${['Yes', 'No']}
           @click=${this._specialPaySelectionHandler}
         ></form-toggle>
       </div>
       ${this.specialRaise
-            ? html `<form-header .sectionTitle=${'Special Raises'}></form-header>
-            <div class="form-fields">
-              <form-raises .specialRaise=${true}></form-raises>
-              ${this.specialRaises.map(raise => raise)}
-              <button class="btn btn-raise" @click=${this._addSpecialRaise}>
-                <img src=${plusIcon} />Add a raise
-              </button>
-            </div>`
+            ? html `<div class="form-fields">
+            <form-raises .specialRaise=${true}></form-raises>
+            ${this.specialRaises.map(raise => raise)}
+            <button class="btn btn-raise" @click=${this._addSpecialRaise}>
+              <img src=${plusIcon} />Add a raise
+            </button>
+          </div>`
             : nothing}
     `;
     }
@@ -195,6 +222,12 @@ __decorate([
 __decorate([
     property()
 ], UnitForm.prototype, "specialRaises", void 0);
+__decorate([
+    property({ attribute: false })
+], UnitForm.prototype, "unitSelected", void 0);
+__decorate([
+    property()
+], UnitForm.prototype, "childFoo", void 0);
 UnitForm = __decorate([
     customElement('unit-form')
 ], UnitForm);

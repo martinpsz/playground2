@@ -5,5 +5,6 @@ export declare class FormToggle extends LitElement {
     question: String;
     position: string;
     idTag: StringConstructor;
+    defaultCheck: StringConstructor;
     render(): import("lit-html").TemplateResult<1>;
 }

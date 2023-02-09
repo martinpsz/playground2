@@ -9,4 +9,5 @@ export declare class UnitItem extends LitElement {
     master: Boolean;
     employer: String;
     render(): import("lit-html").TemplateResult<1>;
+    _selectedUnit(): void;
 }

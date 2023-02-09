@@ -37,10 +37,16 @@ let FormTextField = class FormTextField extends LitElement {
   `;
     label;
     placeholder;
+    value;
     render() {
         return html `<div>
       <label for=${this.label}>${this.label}</label
-      ><input type="text" id=${this.label} placeholder=${this.placeholder} />
+      ><input
+        type="text"
+        id=${this.label}
+        placeholder=${this.placeholder}
+        value=${this.value}
+      />
     </div>`;
     }
 };
@@ -50,6 +56,9 @@ __decorate([
 __decorate([
     property()
 ], FormTextField.prototype, "placeholder", void 0);
+__decorate([
+    property()
+], FormTextField.prototype, "value", void 0);
 FormTextField = __decorate([
     customElement('form-text-field')
 ], FormTextField);

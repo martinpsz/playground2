@@ -50,6 +50,7 @@ let FormToggle = class FormToggle extends LitElement {
     question;
     position = 'horizontal';
     idTag = String;
+    defaultCheck = String;
     render() {
         return html `
       <div class="radio-question ${this.position}" id=${this.idTag}>
@@ -78,6 +79,9 @@ __decorate([
 __decorate([
     property()
 ], FormToggle.prototype, "idTag", void 0);
+__decorate([
+    property()
+], FormToggle.prototype, "defaultCheck", void 0);
 FormToggle = __decorate([
     customElement('form-toggle')
 ], FormToggle);
